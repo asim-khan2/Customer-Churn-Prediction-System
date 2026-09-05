@@ -14,9 +14,9 @@ The project is being developed using a modular ML pipeline architecture with sep
 * [x] Data Ingestion
 * [x] Train/Test Split
 * [x] Data Transformation & Preprocessing
-* [ ] Model Training
-* [ ] Model Evaluation
-* [ ] Model Selection
+* [x] Model Training
+* [x] Model Evaluation
+* [x] Model Selection
 * [ ] Prediction Pipeline
 * [ ] Web Application
 * [ ] Deployment
