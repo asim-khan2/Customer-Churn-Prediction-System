@@ -10,13 +10,16 @@ import dill
 
 
 
-def evaluate_models(X_train,X_test,y_train,y_test,models,prams):
+def evaluate_models(X_train, X_test, y_train, y_test, models, prams):
 
     try:
         report = {}
+
         for i in range(len(list(models))):
+
+            model_name = list(models.keys())[i]
             model = list(models.values())[i]
-            param = prams[list(models.keys())[i]]
+            param = prams[model_name]
 
             gs = GridSearchCV(
                 estimator=model,
@@ -25,22 +28,24 @@ def evaluate_models(X_train,X_test,y_train,y_test,models,prams):
                 n_jobs=-1,
                 scoring='recall'
             )
-            gs.fit(X_train,y_train)
 
-            model.set_params(**gs.best_params_)
+            gs.fit(X_train, y_train)
 
-            y_train_pred = model.predict(X_train)
-            y_test_pred = model.predict(X_test)
+            # Get the best fitted model
+            best_model = gs.best_estimator_
+
+            y_train_pred = best_model.predict(X_train)
+            y_test_pred = best_model.predict(X_test)
 
             train_model_score = recall_score(y_train, y_train_pred)
             test_model_score = recall_score(y_test, y_test_pred)
 
-            report[list(models.keys())[i]] = test_model_score
+            report[model_name] = test_model_score
 
         return report
-        
+
     except Exception as e:
-        raise CustomException(e,sys)
+        raise CustomException(e, sys)
 
 def save_object(file_path , obj):
     try:
